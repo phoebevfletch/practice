@@ -2,20 +2,19 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App-background{
+  background-image: url(https://discountdragon.co.uk/wp-content/uploads/2023/07/JAFFA-CAKE-MISSHAPE.jpg);
+  background-size: cover;  /*scales image to cover the entire screen without distorting the image */
+  background-position: center; /* centres the image */
+  height: 100vh; /* makes sure background takes up the full height of the viewpoint*/
+  position: relative; /* This is needed for when we use th eoverlay */
+  opacity: 0.5;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color:lightskyblue;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +23,17 @@
   color: white;
 }
 
+
+
 .App-link {
-  color: #61dafb;
+  color:rgb(255, 132, 0);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.App-title {
+  color: darkblue;
+}
+
+.App-imposter {
+  color: brown;
 }
