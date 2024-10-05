@@ -4,6 +4,7 @@ const Quiz = () => {
     // Array of questions for the quiz
     const questions = [
         {
+
             question: "What is the diameter of a JaffaCake?",
             options: ["45mm", "54mm", "56mm"],
             answer: "54mm",
