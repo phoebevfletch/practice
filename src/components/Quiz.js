@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import RepeatButton from "./RepeatButton";
 
 const Quiz = () => {
     // Array of questions for the quiz
@@ -56,6 +57,13 @@ const Quiz = () => {
         }
     };
 
+    const RepeatButtonInQuiz = () => {
+        setCurrentQuestion(0);
+        setScore(0);
+        setQuizEnd(false);
+        setSelectedAnswer(null);
+    };
+
     return (
         <div
             style={{
@@ -70,6 +78,7 @@ const Quiz = () => {
                     <p>
                         Your score is {score} out of {questions.length}
                     </p>
+                    <RepeatButton onRepeat={RepeatButtonInQuiz} />
                 </div>
             ) : (
                 <div>
