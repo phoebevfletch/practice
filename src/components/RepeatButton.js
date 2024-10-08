@@ -1,18 +1,10 @@
 import React from "react";
+import "./RepeatButtonStyle.css";
 
 const RepeatButton = ({ onRepeat }) => {
     return (
         <button
-            style={{
-                padding: "10px 20px",
-                marginTop: "20px",
-                marginBottom: "20px",
-                cursor: "pointer",
-                backgroundColor: "#00008b",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-            }}
+            className="RepeatButtonDesign"
             onClick={onRepeat}
         >
             Repeat Quiz
