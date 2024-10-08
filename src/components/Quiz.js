@@ -46,7 +46,6 @@ const Quiz = () => {
 
         // Set the selected answer
         setSelectedAnswer(option);
-
         // Move to the next question or end the quiz
         const nextQuestion = currentQuestion + 1;
         if (nextQuestion < questions.length) {
@@ -95,6 +94,7 @@ const Quiz = () => {
                                             selectedAnswer === option ? "#ddd" : "white", // Highlight selected answer
                                     }}
                                     onClick={() => handleAnswerClick(option)}
+                                    disabled={selectedAnswer !== null} //Disable buttons after selection
                                 >
                                     {option}
                                 </button>
