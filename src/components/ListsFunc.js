@@ -1,6 +1,11 @@
 
 import React from "react";
 
+function ListRenderer({ items, isOrdered }) {
+
+}
+
+
 function ListRenderer({ items, isOrdered }) { //items is the jaffa array
     const ListItems = items.map(item => (
         <li key={item.id}>
@@ -8,7 +13,6 @@ function ListRenderer({ items, isOrdered }) { //items is the jaffa array
             <i>{isOrdered ? item.Quantity : item.Description}</i>
         </li>
         // ? : ternary operator so, if isOrdered is true, display itemFeatures, if false display Type
-        // note to self: find better way of doing this so multiple lists can be passed through
 
     ));
     return (
