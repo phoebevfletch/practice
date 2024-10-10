@@ -29,6 +29,19 @@ const Quiz = () => {
             answer: "72",
             statement: "This title is held by Pete Czerwinski from Canada",
         },
+        {
+            question: "Which of these is not a flavour of JaffaCake?",
+            options: ["Cola", "Pineapple", "Mint"],
+            answer: "Mint",
+            statement: "Cola is the newest addition to the long JaffaCake flavours. this was released in June 2024"
+        },
+        {
+            question: "How many JaffaCakes are in a pack of JaffaCakes?",
+            options: ["10", "11", "12"],
+            answer: "10",
+            statement: "There are only 10 JaffaCakes in a pack",
+        }
+
     ];
 
     // State to track current question, score, and if the quiz has ended
