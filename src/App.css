@@ -4,6 +4,13 @@
   padding: 40px;
 }
 
+.App-header img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 
 .App-background {
   background-image: url(JAFFA-CAKE-MISSHAPE.jpg);
