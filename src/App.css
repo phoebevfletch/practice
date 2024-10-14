@@ -17,7 +17,6 @@
   background-position: center;
   position: relative;
   min-height: 100vh;
-  /* Ensure the background covers the full viewport */
 }
 
 .App-header {
@@ -29,6 +28,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  border-radius: 10px;
 }
 
 .App-link {
@@ -49,6 +49,7 @@
 .navbar {
   background-color: #00008b;
   padding: 10px;
+  border-radius: 10px;
 }
 
 /* Styles for the list of nav items */

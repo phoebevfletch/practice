@@ -36,7 +36,6 @@ const HomePage = () => (
     </div>
 );
 
-// App component sets up routing and includes the Navbar
 const App = () => {
     return (
         <div className="App App-background">
