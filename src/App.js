@@ -4,6 +4,7 @@ import Quiz from "./components/Quiz";
 import { Biscuits, JaffaCakes } from "./components/AllLists";
 import Title from "./components/Title";
 import './App.css';
+import Connect4 from "./components/ConnectFour/Grid";
 
 // Navbar component navigation between pages
 const Navbar = () => (
@@ -11,6 +12,8 @@ const Navbar = () => (
         <ul className="nav-list">
             <li><Link className="nav-link" to="/">Home</Link></li>
             <li><Link className="nav-link" to="/quiz">Quiz</Link></li>
+            <li><Link className="nav-link" to="/connectFourGame">Connect4</Link></li>
+
         </ul>
     </nav>
 );
@@ -46,6 +49,7 @@ const App = () => {
                         {/* Define routes for each page */}
                         <Route path="/" element={<HomePage />} />
                         <Route path="/quiz" element={<Quiz />} />
+                        <Route path="/connectFourGame" element={<Connect4 />} />
                         {/* Fallback 404 page */}
                         <Route path="*" element={<h2>Page not found</h2>} />
                     </Routes>
