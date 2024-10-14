@@ -11,14 +11,14 @@
   margin: 0 auto;
 }
 
-
 .App-background {
-  background-image: url(JAFFA-CAKE-MISSHAPE.jpg);
+  background-image: url(./JAFFA-CAKE-MISSHAPE.jpg);
   background-size: cover;
   background-position: center;
   position: relative;
+  min-height: 100vh;
+  /* Ensure the background covers the full viewport */
 }
-
 
 .App-header {
   background-color: lightskyblue;
@@ -31,12 +31,9 @@
   color: white;
 }
 
-
-
 .App-link {
   color: rgb(255, 132, 0);
 }
-
 
 .App-title {
   color: darkblue;
@@ -44,4 +41,28 @@
 
 .App-imposter {
   color: brown;
+}
+
+
+
+/* Navbar container style */
+.navbar {
+  background-color: #00008b;
+  padding: 10px;
+}
+
+/* Styles for the list of nav items */
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+/* Style for individual nav links */
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
 }

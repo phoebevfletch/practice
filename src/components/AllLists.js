@@ -1,10 +1,3 @@
-//function Lists() {
-//  const food = ["Jaffa Cakes", "Bananas", "Chicken", "Crisps", "Chocolate"];
-//const listItems = food.map(food => <li>{food}</li>);
-//return(<ul>{listItems}</ul>);
-//}
-//export default Lists
-
 import React from "react";
 import ListRenderer from "./ListsFunc";
 

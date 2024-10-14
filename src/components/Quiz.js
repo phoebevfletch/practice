@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RepeatButton from "./RepeatButton";
-import "./RepeatButtonStyle.css";  // Import the CSS file for button styles
+import "./RepeatButtonStyle.css";
 
 const Quiz = () => {
     const questions = [
