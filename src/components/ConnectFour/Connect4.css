@@ -1,12 +1,14 @@
 .grid-container {
     background: #87CEFA;
-    margin-top: 0%;
+    margin-top: 0;
     height: 60%;
-    padding: 10%;
+    padding: 0;
     border-radius: 2%;
     box-sizing: border-box;
     position: relative;
-    /* Allows positioning of child elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .grid-image {
@@ -22,12 +24,12 @@
 }
 
 .jaffa-token {
-    width: 6%;
+    width: 7%;
     height: auto;
     position: absolute;
-    bottom: 24%;
+    bottom: 11%;
     /* Position at the bottom of the grid container */
-    left: 30%;
+    left: 25.2%;
     /* Position at the left of the grid container */
     z-index: 1;
     /* Puts it behind the grid image but in front of the background */
