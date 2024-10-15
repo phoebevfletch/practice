@@ -1,3 +1,35 @@
+/* App Text styles*/
+@import url('https://fonts.googleapis.com/css2?family=Rancho&family=Old+Standard+TT:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gudea:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Apply Rancho font to all headings and titles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.App-title {
+  font-family: 'Rancho', cursive;
+  letter-spacing: 1px;
+}
+
+body,
+p,
+.App-link,
+.App-imposter,
+.nav-link,
+ul,
+li {
+  font-family: 'Gudea', sans-serif;
+  font-weight: 400;
+  /* Regular weight for body text */
+}
+
+h2 {
+  color: rgb(196, 101, 0);
+}
+
 .App {
   border: 50px solid rgb(0, 0, 139);
   text-align: center;
@@ -40,7 +72,7 @@
 }
 
 .App-imposter {
-  color: brown;
+  color: rgb(196, 101, 0);
 }
 
 
@@ -63,7 +95,9 @@
 
 /* Style for individual nav links */
 .nav-link {
-  color: white;
+  color: rgb(255, 132, 0);
   text-decoration: none;
-  font-size: 18px;
+  font-size: 25px;
+  letter-spacing: 1px;
+  font-family: 'Rancho', cursive;
 }
