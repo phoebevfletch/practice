@@ -1,38 +1,104 @@
+/* App Text styles*/
+@import url('https://fonts.googleapis.com/css2?family=Rancho&family=Old+Standard+TT:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gudea:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Apply Rancho font to all headings and titles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.App-title {
+  font-family: 'Rancho', cursive;
+  letter-spacing: 1px;
+}
+
+body,
+p,
+.App-link,
+.App-imposter,
+.nav-link,
+ul,
+li {
+  font-family: 'Gudea', sans-serif;
+  font-weight: 400;
+  /* Regular weight for body text */
+}
+
+h2 {
+  color: rgb(196, 101, 0);
+}
+
 .App {
+  border: 50px solid rgb(0, 0, 139);
   text-align: center;
+  padding: 40px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App-header img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App-background {
+  background-image: url(./JAFFA-CAKE-MISSHAPE.jpg);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  min-height: 100vh;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: lightskyblue;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  border-radius: 10px;
 }
 
 .App-link {
-  color: #61dafb;
+  color: rgb(255, 132, 0);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App-title {
+  color: darkblue;
+}
+
+.App-imposter {
+  color: rgb(196, 101, 0);
+}
+
+
+
+/* Navbar container style */
+.navbar {
+  background-color: #00008b;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Styles for the list of nav items */
+.nav-list {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+/* Style for individual nav links */
+.nav-link {
+  color: rgb(255, 132, 0);
+  text-decoration: none;
+  font-size: 25px;
+  letter-spacing: 1px;
+  font-family: 'Rancho', cursive;
 }

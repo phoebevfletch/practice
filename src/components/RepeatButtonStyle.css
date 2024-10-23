@@ -1,0 +1,11 @@
+.RepeatButtonDesign {
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #00008b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    display: inline-block;
+}
