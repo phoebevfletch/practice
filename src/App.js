@@ -5,6 +5,7 @@ import { Biscuits, JaffaCakes } from "./components/AllLists";
 import Title from "./components/Title";
 import './App.css';
 import Connect4 from "./components/ConnectFour/Grid";
+import Monoscuit from "./components/Monoscuit";
 
 // Navbar component navigation between pages
 const Navbar = () => (
@@ -13,7 +14,7 @@ const Navbar = () => (
             <li><Link className="nav-link" to="/">Home</Link></li>
             <li><Link className="nav-link" to="/quiz">Quiz</Link></li>
             <li><Link className="nav-link" to="/connectFourGame">Connect4</Link></li>
-
+            <li><Link className="nav-link" to="/monoscuit">Monoscuit</Link></li>
         </ul>
     </nav>
 );
@@ -50,6 +51,7 @@ const App = () => {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/quiz" element={<Quiz />} />
                         <Route path="/connectFourGame" element={<Connect4 />} />
+                        <Route path="/monoscuit" element={<Monoscuit />} />
                         {/* Fallback 404 page */}
                         <Route path="*" element={<h2>Page not found</h2>} />
                     </Routes>
