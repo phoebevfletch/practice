@@ -40,6 +40,12 @@ const Quiz = () => {
             answer: "10",
             statement: "There are only 10 JaffaCakes in a pack",
         },
+        {
+            question: "Where is the McVitie's factory?",
+            options: ["Bately", "Stockport", "Halifax"],
+            answer: "Stockport",
+            statement: "The JaffaCake production area is over an acre and includes a production line that's more than a mile long",
+        },
     ];
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
