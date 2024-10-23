@@ -91,6 +91,7 @@ h2 {
   justify-content: space-around;
   margin: 0;
   padding: 0;
+  flex-wrap: wrap;
 }
 
 /* Style for individual nav links */

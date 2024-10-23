@@ -1,14 +1,10 @@
 .grid-container {
     background: #87CEFA;
-    margin-top: 0;
-    height: 60%;
-    padding: 0;
     border-radius: 2%;
     box-sizing: border-box;
     position: relative;
-    display: flex;
     justify-content: center;
-    align-items: center;
+    overflow: hidden;
 }
 
 .grid-image {
@@ -20,17 +16,46 @@
     /* Keeps the aspect ratio of the image */
     position: relative;
     z-index: 2;
-    /* Ensures it's on top of the FrontJaffa image */
 }
 
 .jaffa-token {
-    width: 7%;
+    width: 7.2%;
     height: auto;
     position: absolute;
     bottom: 11%;
     /* Position at the bottom of the grid container */
-    left: 25.2%;
+    left: 25.3%;
     /* Position at the left of the grid container */
     z-index: 1;
     /* Puts it behind the grid image but in front of the background */
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.2%;
+    width: 100%;
+    padding: 0;
+    padding-bottom: 1%;
+}
+
+/* Default button size for normal screen sizes */
+.grid-button {
+    padding: 2.5%;
+    border-radius: 50%;
+    background-color: rgb(50, 32, 0);
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Keeps the shadow */
+    border: none;
+    /* Add a solid gold border */
+    transition: background-color 0.3s ease;
+    z-index: 3;
+}
+
+
+.grid-button:hover {
+    background-color: #b16304;
+    /* Slightly darker on hover */
 }
