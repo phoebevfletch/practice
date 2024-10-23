@@ -31,9 +31,9 @@ h2 {
 }
 
 .App {
-  border: 50px solid rgb(0, 0, 139);
+  border: 20px solid rgb(0, 0, 139);
   text-align: center;
-  padding: 40px;
+  padding: 10px;
 }
 
 .App-header img {
