@@ -27,13 +27,13 @@ li {
 }
 
 h2 {
-  color: rgb(196, 101, 0);
+  color: rgb(91, 47, 0);
 }
 
 .App {
-  border: 20px solid rgb(0, 0, 139);
+  border: 40px solid rgb(0, 0, 139);
   text-align: center;
-  padding: 10px;
+  padding: 40px;
 }
 
 .App-header img {
