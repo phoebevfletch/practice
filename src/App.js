@@ -45,7 +45,7 @@ const App = () => {
         <div className="App App-background">
             <Router>
                 <Navbar /> {/* Navbar is displayed on all pages */}
-                <div style={{ padding: "10px" }}>
+                <div style={{ padding: "20px" }}>
                     <Routes>
                         {/* Define routes for each page */}
                         <Route path="/" element={<HomePage />} />

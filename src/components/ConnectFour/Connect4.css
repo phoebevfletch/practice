@@ -59,3 +59,23 @@
     background-color: #b16304;
     /* Slightly darker on hover */
 }
+
+.winner-message {
+    text-align: center;
+    margin-top: 1%;
+    font-size: x-large;
+    color: #b16304;
+    font-family: 'Rancho', cursive;
+}
+
+.reset-button {
+    margin-top: 1%;
+    padding: 1% 1%;
+    font-size: large;
+    cursor: pointer;
+    background-color: #00008b;
+    border: none;
+    border-radius: 1%;
+    color: rgb(255, 132, 0);
+    font-family: 'Gudea', sans-serif;
+}
