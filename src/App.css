@@ -27,11 +27,11 @@ li {
 }
 
 h2 {
-  color: rgb(196, 101, 0);
+  color: rgb(91, 47, 0);
 }
 
 .App {
-  border: 50px solid rgb(0, 0, 139);
+  border: 40px solid rgb(0, 0, 139);
   text-align: center;
   padding: 40px;
 }
@@ -100,5 +100,4 @@ h2 {
   text-decoration: none;
   font-size: 25px;
   letter-spacing: 1px;
-  font-family: 'Rancho', cursive;
 }

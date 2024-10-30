@@ -8,44 +8,50 @@ const Quiz = () => {
             question: "What is the diameter of a JaffaCake?",
             options: ["45mm", "54mm", "56mm"],
             answer: "54mm",
-            statement: "JaffaCakes are 54mm which is 2 1/8 inches",
+            statement: "JaffaCakes are 54mm which is 2 1/8 inches.",
         },
         {
             question: "What year were JaffaCakes created?",
             options: ["1927", "1938", "1955"],
             answer: "1927",
-            statement: "Bonus fact: The name comes from the orange-flavoured jam used which is made from the Jaffa oranges",
+            statement: "Bonus fact: The name comes from the orange-flavoured jam used which is made from the Jaffa oranges.",
         },
         {
             question: "JaffaCakes are biscuits.",
             options: ["true", "false"],
             answer: "false",
-            statement: "Click the link above to see the lawsuit and why JaffaCakes are Cakes",
+            statement: "JaffaCakes are Cakes!!!!!!!!!",
         },
         {
             question: "What is the world record for the most JaffaCakes eaten in under a minute?",
             options: ["68", "72", "79"],
             answer: "72",
-            statement: "This title is held by Pete Czerwinski from Canada",
+            statement: "This title is held by Wayne Sherlock. The previous record was 17.",
         },
         {
             question: "Which of these is not a flavour of JaffaCake?",
             options: ["Cola", "Pineapple", "Mint"],
             answer: "Mint",
-            statement: "Cola is the newest addition to the long JaffaCake flavours. This was released in June 2024",
+            statement: "Cola is the newest addition to the long JaffaCake flavours. This was released in June 2024.",
         },
         {
             question: "How many JaffaCakes are in a pack of JaffaCakes?",
             options: ["10", "11", "12"],
             answer: "10",
-            statement: "There are only 10 JaffaCakes in a pack",
+            statement: "There are only 10 JaffaCakes in a pack.",
         },
         {
             question: "Where is the McVitie's factory?",
             options: ["Bately", "Stockport", "Halifax"],
             answer: "Stockport",
-            statement: "The JaffaCake production area is over an acre and includes a production line that's more than a mile long",
+            statement: "The JaffaCake production area is over an acre and includes a production line that's more than a mile long.",
         },
+        {
+            question: "What does Biscuit mean in Latin",
+            options: ["Hard Cakes", "Round Cake", "Twice Baked"],
+            answer: "Twice Baked",
+            statement: "Biscuit comes from the latin bis meaning twice, and cuit meaning baked.",
+        }
     ];
 
     const [currentQuestion, setCurrentQuestion] = useState(0);

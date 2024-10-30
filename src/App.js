@@ -6,6 +6,7 @@ import Title from "./components/Title";
 import './App.css';
 import Connect4 from "./components/ConnectFour/Grid";
 import Monoscuit from "./components/Monoscuit";
+import FlappyJaffa from "./components/FlappyBird/FlappyBird"; // Corrected import
 
 // Navbar component navigation between pages
 const Navbar = () => (
@@ -15,6 +16,7 @@ const Navbar = () => (
             <li><Link className="nav-link" to="/quiz">Quiz</Link></li>
             <li><Link className="nav-link" to="/connectFourGame">Connect4</Link></li>
             <li><Link className="nav-link" to="/monoscuit">Monoscuit</Link></li>
+            <li><Link className="nav-link" to="/flappyJaffa">Flappy JaffaCake</Link></li>
         </ul>
     </nav>
 );
@@ -52,6 +54,8 @@ const App = () => {
                         <Route path="/quiz" element={<Quiz />} />
                         <Route path="/connectFourGame" element={<Connect4 />} />
                         <Route path="/monoscuit" element={<Monoscuit />} />
+                        <Route path="/flappyJaffa" element={<FlappyJaffa />} />
+
                         {/* Fallback 404 page */}
                         <Route path="*" element={<h2>Page not found</h2>} />
                     </Routes>
@@ -62,4 +66,5 @@ const App = () => {
 };
 
 export default App;
+
 
