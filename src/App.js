@@ -54,7 +54,7 @@ const App = () => {
                         <Route path="/quiz" element={<Quiz />} />
                         <Route path="/connectFourGame" element={<Connect4 />} />
                         <Route path="/monoscuit" element={<Monoscuit />} />
-                        <Route path="/flappyJaffa" element={<FlappyJaffa />} /> {/* Corrected component reference */}
+                        <Route path="/flappyJaffa" element={<FlappyJaffa />} />
 
                         {/* Fallback 404 page */}
                         <Route path="*" element={<h2>Page not found</h2>} />
