@@ -34,31 +34,44 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2.2%;
+    gap: 1.2%;
     width: 100%;
     padding: 0;
     padding-bottom: 1%;
 }
 
-/* Default button size for normal screen sizes */
 .grid-button {
-    padding: 2.5%;
+    padding: 3%;
     border-radius: 50%;
     background-color: rgb(50, 32, 0);
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    /* Keeps the shadow */
     border: none;
-    /* Add a solid gold border */
-    transition: background-color 0.3s ease;
+    transition: background-color 0.1s ease, opacity 0.1s ease;
     z-index: 3;
+    opacity: 0;
 }
 
+.grid-button.default-visible {
+    opacity: 1;
+}
 
-.grid-button:hover {
+.buttons-container:hover .grid-button {
+    opacity: 0;
+}
+
+.buttons-container .grid-button:hover {
+    opacity: 1;
     background-color: #b16304;
-    /* Slightly darker on hover */
 }
+
+
+/* For the hover token to disappear when another button is hovered */
+.buttons-container .grid-button.default-visible:hover {
+    opacity: 1;
+}
+
+
 
 .winner-message {
     text-align: center;
@@ -78,4 +91,43 @@
     border-radius: 1%;
     color: rgb(255, 132, 0);
     font-family: 'Gudea', sans-serif;
+}
+
+@keyframes jaffa-rain {
+    0% {
+        transform: translateY(-40vh) rotate(0deg);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        /* Adjusted to make the tokens fall all the way */
+        opacity: 1;
+    }
+}
+
+
+.jaffa-rain {
+    position: absolute;
+    top: 0;
+    width: 4vh;
+    height: 4vh;
+    z-index: 1000;
+    animation: jaffa-rain 7s linear infinite;
+}
+
+@keyframes jaffa-opacity {
+
+    0%,
+    20% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.jaffa-rain:nth-child(odd) {
+    animation: jaffa-rain 5s linear infinite, jaffa-opacity 3s ease-in-out infinite;
 }

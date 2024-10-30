@@ -5,17 +5,17 @@ import BackJaffa from "./BackJaffaCake.png";
 import './Connect4.css';
 
 const Grid = () => {
-    // Number of rows and columns in the grid
     const rows = 6;
     const columns = 7;
 
-    // State to keep track of the board with tokens placed by players
+    // State for the board, tokens, current player, etc.
     const [board, setBoard] = useState(Array.from({ length: rows }, () => Array(columns).fill(null)));
     const [tokens, setTokens] = useState([]);
     const [currentPlayer, setCurrentPlayer] = useState(1);
     const [winner, setWinner] = useState(null);
-    const [tie, setTie] = useState(false); // State to track tie situation
+    const [tie, setTie] = useState(false);
     const [columnCounts, setColumnCounts] = useState(Array(columns).fill(0));
+    const [lastHoveredIndex, setLastHoveredIndex] = useState(0); // New state to track the last hovered column
 
     const handleClick = (columnIndex) => {
         if (winner || tie) return;
@@ -27,11 +27,9 @@ const Grid = () => {
         }
 
         const newRow = rows - tokenCountInColumn - 1;
-
-        // Update the visual tokens and the local board state
         const newTokenPosition = {
-            left: `${25.4 + columnIndex * 7}%`,
-            bottom: `${21.5 + tokenCountInColumn * 12.5}%`
+            left: `${25.1 + columnIndex * 7}%`,
+            bottom: `${12.1 + tokenCountInColumn * 13.8}%`
         };
         const newToken = {
             ...newTokenPosition,
@@ -41,95 +39,132 @@ const Grid = () => {
         const newTokens = [...tokens, newToken];
         setTokens(newTokens);
 
-        // Update the board with the current player's token
         const newBoard = board.map(row => [...row]);
         newBoard[newRow][columnIndex] = currentPlayer;
         setBoard(newBoard);
 
-        // Update the column counts
         const newColumnCounts = [...columnCounts];
         newColumnCounts[columnIndex] += 1;
         setColumnCounts(newColumnCounts);
 
-        // Check for a winner
         if (checkWinner(newRow, columnIndex, currentPlayer, newBoard)) {
             setWinner(currentPlayer);
             return;
         }
 
-        // Check for a tie (if the board is full)
         if (newTokens.length === rows * columns) {
             setTie(true);
             return;
         }
 
-        // Switch to the other player
         setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
+        setLastHoveredIndex(0); // Reset to the default visible token for the new player
     };
 
-    // Function to check for a winner
     const checkWinner = (row, col, player, board) => {
-        // Horizontal Check
-        for (let c = 0; c <= columns - 4; c++) {
-            if (board[row][c] === player && board[row][c + 1] === player &&
-                board[row][c + 2] === player && board[row][c + 3] === player) {
-                return true;
+        const directions = [
+            { r: 0, c: 1 }, // horizontal (left-right)
+            { r: 1, c: 0 }, // vertical (up-down)
+            { r: 1, c: 1 }, // diagonal (top-left to bottom-right)
+            { r: 1, c: -1 } // diagonal (top-right to bottom-left)
+        ];
+
+        // Helper function to count the consecutive tokens in a given direction
+        const countConsecutive = (row, col, rowDelta, colDelta) => {
+            let count = 0;
+            let r = row + rowDelta;
+            let c = col + colDelta;
+
+            while (
+                r >= 0 &&
+                r < board.length &&
+                c >= 0 &&
+                c < board[0].length &&
+                board[r][c] === player
+            ) {
+                count++;
+                r += rowDelta;
+                c += colDelta;
+            }
+
+            return count;
+        };
+
+        // Check all directions for a four-in-a-row
+        for (const direction of directions) {
+            const count =
+                1 + // Count the current token
+                countConsecutive(row, col, direction.r, direction.c) + // Count in the positive direction
+                countConsecutive(row, col, -direction.r, -direction.c); // Count in the negative direction
+
+            if (count >= 4) {
+                return true; // Winner found
             }
         }
 
-        // Vertical Check
-        for (let r = 0; r <= rows - 4; r++) {
-            if (board[r][col] === player && board[r + 1][col] === player &&
-                board[r + 2][col] === player && board[r + 3][col] === player) {
-                return true;
-            }
-        }
-
-        // Diagonal Check (bottom-left to top-right)
-        for (let r = 0; r <= rows - 4; r++) {
-            for (let c = 0; c <= columns - 4; c++) {
-                if (board[r][c] === player && board[r + 1][c + 1] === player &&
-                    board[r + 2][c + 2] === player && board[r + 3][c + 3] === player) {
-                    return true;
-                }
-            }
-        }
-
-        // Diagonal Check (bottom-right to top-left)
-        for (let r = 3; r < rows; r++) {
-            for (let c = 0; c <= columns - 4; c++) {
-                if (board[r][c] === player && board[r - 1][c + 1] === player &&
-                    board[r - 2][c + 2] === player && board[r - 3][c + 3] === player) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return false; // No winner found
     };
 
-    // Function to reset the game state
+
     const resetGame = () => {
         setBoard(Array.from({ length: rows }, () => Array(columns).fill(null)));
         setTokens([]);
         setCurrentPlayer(1);
         setWinner(null);
-        setTie(false); // Reset tie state
+        setTie(false);
         setColumnCounts(Array(columns).fill(0));
+        setLastHoveredIndex(0); // Reset to the leftmost token
+    };
+
+    const renderJaffaRain = () => {
+        // If there's no winner, don't show the rain effect
+        if (!winner) return null;
+
+        // Create an array of random Jaffa Cake elements to fall
+        const jaffaCakes = Array.from({ length: 30 }, (_, index) => {
+            const leftPosition = Math.floor(Math.random() * 100); // Random horizontal position
+            const delay = Math.random() * 2; // Random animation delay
+
+            return (
+                <img
+                    key={index}
+                    src={currentPlayer === 1 ? FrontJaffa : BackJaffa}
+                    alt="Falling JaffaCake"
+                    className="jaffa-rain"
+                    style={{ left: `${leftPosition}%`, animationDelay: `${delay}s` }}
+                />
+            );
+        });
+
+        return <div>{jaffaCakes}</div>;
     };
 
     return (
         <div className="game-container">
-            {/* Grid container */}
-            <div className="grid-container">
-                {/* Grid image */}
-                <img
-                    src={GridImage}
-                    alt="Connect Four Grid"
-                    className="grid-image"
-                />
+            {renderJaffaRain()}
+            <div
+                className="buttons-container"
+                onMouseLeave={() => setLastHoveredIndex(lastHoveredIndex)} // When mouse leaves the container, keep the last hovered token visible
+            >
+                {Array.from({ length: columns }, (_, index) => (
+                    <button
+                        key={index}
+                        className={`grid-button ${index === lastHoveredIndex ? "default-visible" : ""}`}
+                        onClick={() => handleClick(index)}
+                        onMouseEnter={() => setLastHoveredIndex(index)} // Set the last hovered index to the current index on hover
+                        style={{
+                            backgroundImage: `url(${currentPlayer === 1 ? FrontJaffa : BackJaffa})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat"
+                        }}
+                    />
+                ))}
+            </div>
 
-                {/* Render all placed tokens */}
+            <div className="grid-container">
+                <img src={GridImage} alt="Connect Four Grid" className="grid-image" />
+
                 {tokens.map((token, index) => (
                     <img
                         key={index}
@@ -139,44 +174,18 @@ const Grid = () => {
                         style={{ left: token.left, bottom: token.bottom }}
                     />
                 ))}
-
-                {/* Row of circular buttons inside the grid */}
-                <div className="buttons-container">
-                    {Array.from({ length: columns }, (_, index) => (
-                        <button
-                            key={index}
-                            className="grid-button"
-                            onClick={() => handleClick(index)}
-                            style={{
-                                backgroundImage: `url(${currentPlayer === 1 ? FrontJaffa : BackJaffa})`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                                backgroundRepeat: "no-repeat"
-                            }}
-                        />
-                    ))}
-                </div>
             </div>
 
-            {/* Winner or Tie Display and Reset Button */}
             {winner && (
                 <div className="winner-message">
-                    <div>
-                        {winner === 1 ? "Player 1" : "Player 2"} Wins!
-                    </div>
-                    <button className="reset-button" onClick={resetGame}>
-                        Reset Game
-                    </button>
+                    <div>{winner === 1 ? "Player 1" : "Player 2"} Wins!</div>
+                    <button className="reset-button" onClick={resetGame}>Reset Game</button>
                 </div>
             )}
             {tie && (
                 <div className="winner-message">
-                    <div>
-                        It's a Tie!
-                    </div>
-                    <button className="reset-button" onClick={resetGame}>
-                        Reset Game
-                    </button>
+                    <div>It's a Tie!</div>
+                    <button className="reset-button" onClick={resetGame}>Reset Game</button>
                 </div>
             )}
         </div>
@@ -184,11 +193,6 @@ const Grid = () => {
 };
 
 export default Grid;
-
-
-
-
-
 
 
 
