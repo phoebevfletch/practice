@@ -101,7 +101,6 @@
 
     100% {
         transform: translateY(100vh) rotate(720deg);
-        /* Adjusted to make the tokens fall all the way */
         opacity: 1;
     }
 }
