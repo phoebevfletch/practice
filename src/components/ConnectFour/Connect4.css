@@ -110,10 +110,10 @@
 .jaffa-rain {
     position: absolute;
     top: 0;
-    width: 4vh;
-    height: 4vh;
+    width: 5vh;
+    height: 5vh;
     z-index: 1000;
-    animation: jaffa-rain 7s linear infinite;
+    animation: jaffa-rain 4s linear infinite;
 }
 
 @keyframes jaffa-opacity {
@@ -129,5 +129,5 @@
 }
 
 .jaffa-rain:nth-child(odd) {
-    animation: jaffa-rain 5s linear infinite, jaffa-opacity 3s ease-in-out infinite;
+    animation: jaffa-rain 3s linear infinite, jaffa-opacity 3s ease-in-out infinite;
 }
