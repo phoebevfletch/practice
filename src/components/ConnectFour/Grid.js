@@ -28,8 +28,8 @@ const Grid = () => {
 
         const newRow = rows - tokenCountInColumn - 1;
         const newTokenPosition = {
-            left: `${25.1 + columnIndex * 7}%`,
-            bottom: `${12.1 + tokenCountInColumn * 13.8}%`
+            left: `${33.7 + columnIndex * 4.8}%`,
+            bottom: `${12.4 + tokenCountInColumn * 13.9}%`
         };
         const newToken = {
             ...newTokenPosition,

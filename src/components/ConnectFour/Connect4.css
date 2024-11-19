@@ -5,10 +5,16 @@
     position: relative;
     justify-content: center;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* Prevent scrollbars */
+    height: 80%;
+    /* Ensure full height usage */
 }
 
 .grid-image {
-    width: 60%;
+    width: 40%;
     /* Ensures the image takes up the full width of its container */
     max-width: 60%;
     /* Prevents the image from exceeding its original size */
@@ -19,7 +25,7 @@
 }
 
 .jaffa-token {
-    width: 7.2%;
+    width: 4.5%;
     height: auto;
     position: absolute;
     bottom: 11%;
@@ -34,14 +40,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.2%;
+    gap: 0%;
     width: 100%;
     padding: 0;
     padding-bottom: 1%;
 }
 
 .grid-button {
-    padding: 3%;
+    padding: 2.4%;
     border-radius: 50%;
     background-color: rgb(50, 32, 0);
     cursor: pointer;
