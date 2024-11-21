@@ -1,0 +1,22 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* Prevent scrollbars */
+    height: 100%;
+    /* Ensure full height usage */
+}
+
+.asteroids-container {
+    background-color: #00004a;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 80vh;
+}
