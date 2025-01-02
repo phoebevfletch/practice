@@ -1,9 +1,9 @@
 import { Sprite, Assets } from "pixi.js";
-import { wrapAround } from "./utils"; // Import only `wrapAround` from utils
-import { KeyListener } from "./keyListener"; // Import `KeyListener` directly
+import { wrapAround } from "./utils";
+import { KeyListener } from "./keyListener";
 import jaffaRocket from "./JaffaRocket.png";
 import flameTexturePath from "./flame.png";
-
+import { createBullet, updateBullets } from "./Bullets";
 
 export async function createJaffaRocket(app) {
     try {
@@ -30,12 +30,16 @@ export async function createJaffaRocket(app) {
         app.stage.addChild(jaffaSprite);
 
         let velocity = 0;
-        const acceleration = 0.2;
-        const maxSpeed = 3;
+        const acceleration = 0.3;
+        const maxSpeed = 2;
         const rotationSpeed = 0.1;
 
-        app.ticker.add(() => {
-            // Ensure the sprite has dimensions before accessing them
+        // Add bullet shooting logic
+        let shootCooldown = 0; // Prevent constant firing
+        const cooldownFrames = 10; // firing rate
+
+
+        app.ticker.add((delta) => {
             if (!jaffaSprite.texture || !jaffaSprite.width || !jaffaSprite.height) {
                 return;
             }
@@ -46,25 +50,46 @@ export async function createJaffaRocket(app) {
 
             // Handle user input for movement
             if (KeyListener["ArrowUp"]) {
-                velocity = Math.min(velocity + acceleration, maxSpeed);
+                velocity = Math.min(velocity + acceleration * delta, maxSpeed);
                 flame.visible = true; // Show flame when accelerating
             } else {
-                velocity *= 0.98; // Apply friction
+                velocity *= 0.98 ** delta; // Apply friction
                 flame.visible = false; // Hide flame
             }
 
             // Handle rocket rotation
             if (KeyListener["ArrowLeft"]) {
-                jaffaSprite.rotation -= rotationSpeed; // Rotate left
+                jaffaSprite.rotation -= rotationSpeed * delta; // Rotate left
             }
 
             if (KeyListener["ArrowRight"]) {
-                jaffaSprite.rotation += rotationSpeed; // Rotate right
+                jaffaSprite.rotation += rotationSpeed * delta; // Rotate right
             }
 
+            // Handle shooting
+            if (KeyListener[" "]) { // Space bar for shooting
+                if (shootCooldown <= 0) {
+                    createBullet(
+                        jaffaSprite.x + Math.cos(jaffaSprite.rotation - Math.PI / 2) * (jaffaSprite.height / 2),
+                        jaffaSprite.y + Math.sin(jaffaSprite.rotation - Math.PI / 2) * (jaffaSprite.height / 2),
+                        jaffaSprite.rotation,
+                        app
+                    );
+                    shootCooldown = cooldownFrames;
+                }
+            }
+
+            if (shootCooldown > 0) {
+                shootCooldown -= 1 * delta;
+            }
+
+            // Update bullets
+            updateBullets(app, delta);
+
             // Apply movement based on rotation
-            jaffaSprite.x += Math.cos(jaffaSprite.rotation - Math.PI / 2) * velocity;
-            jaffaSprite.y += Math.sin(jaffaSprite.rotation - Math.PI / 2) * velocity;
+            jaffaSprite.x += Math.cos(jaffaSprite.rotation - Math.PI / 2) * velocity * delta;
+            jaffaSprite.y += Math.sin(jaffaSprite.rotation - Math.PI / 2) * velocity * delta;
+
 
             // Ensure the rocket stays within the screen bounds
             wrapAround(jaffaSprite, app.screen.width, app.screen.height);
