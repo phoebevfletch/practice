@@ -9,7 +9,7 @@ import { jaffas } from "./JaffasteroidsWhole"; // Import jaffas array from Jaffa
  * @param {Sprite|Graphics} sprite2 
  * @returns {boolean}
  */
-function isColliding(sprite1, sprite2) {
+function isBulletColliding(sprite1, sprite2) {
     const dx = sprite1.x - sprite2.x;
     const dy = sprite1.y - sprite2.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -75,14 +75,14 @@ export function handleCollisions(bullets, app) {
         for (let j = jaffas.length - 1; j >= 0; j--) {
             const jaffa = jaffas[j];
 
-            if (isColliding(bullet, jaffa.sprite)) {
+            // CollisionBullets.js
+            if (isBulletColliding(bullet, jaffa.sprite)) {
                 // Collision detected
-
                 // Remove bullet
                 app.stage.removeChild(bullet);
                 bullets.splice(i, 1);
 
-                // Update score based on the generation of the Jaffa Cake
+                // Update score
                 if (jaffa.generation === 0) {
                     score += 50; // Initial asteroid
                 } else {
@@ -95,11 +95,9 @@ export function handleCollisions(bullets, app) {
                 // Remove the original Jaffa Cake from the array
                 jaffas.splice(j, 1);
 
-                // Log or update score display (optional for debugging)
-                console.log("Score:", score);
-
                 break; // Stop checking other Jaffa Cakes for this bullet
             }
+
         }
     }
 }
@@ -127,7 +125,6 @@ export function updateJaffaCakes(app) {
         const jaffa = jaffas[i];
 
         if (!jaffa || !jaffa.sprite) {
-            console.warn("Found null or undefined Jaffa object, removing...");
             jaffas.splice(i, 1);
             continue;
         }

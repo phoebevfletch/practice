@@ -11,7 +11,6 @@ export async function createJaffaRocket(app) {
         const flameTexture = await Assets.load(flameTexturePath);
 
         if (!texture || !flameTexture) {
-            console.error("Error loading textures");
             return;
         }
 
@@ -34,21 +33,17 @@ export async function createJaffaRocket(app) {
         const maxSpeed = 2;
         const rotationSpeed = 0.1;
 
-        // Add bullet shooting logic
         let shootCooldown = 0; // Prevent constant firing
         const cooldownFrames = 10; // firing rate
-
 
         app.ticker.add((delta) => {
             if (!jaffaSprite.texture || !jaffaSprite.width || !jaffaSprite.height) {
                 return;
             }
 
-            // Adjust flame position relative to sprite bounds
-            const bounds = jaffaSprite.getBounds(); // Get bounds of the sprite
+            const bounds = jaffaSprite.getBounds();
             flame.position.set(0, bounds.height / 2 + 5);
 
-            // Handle user input for movement
             if (KeyListener["ArrowUp"]) {
                 velocity = Math.min(velocity + acceleration * delta, maxSpeed);
                 flame.visible = true; // Show flame when accelerating
@@ -57,7 +52,6 @@ export async function createJaffaRocket(app) {
                 flame.visible = false; // Hide flame
             }
 
-            // Handle rocket rotation
             if (KeyListener["ArrowLeft"]) {
                 jaffaSprite.rotation -= rotationSpeed * delta; // Rotate left
             }
@@ -66,7 +60,6 @@ export async function createJaffaRocket(app) {
                 jaffaSprite.rotation += rotationSpeed * delta; // Rotate right
             }
 
-            // Handle shooting
             if (KeyListener[" "]) { // Space bar for shooting
                 if (shootCooldown <= 0) {
                     createBullet(
@@ -83,21 +76,16 @@ export async function createJaffaRocket(app) {
                 shootCooldown -= 1 * delta;
             }
 
-            // Update bullets
             updateBullets(app, delta);
 
-            // Apply movement based on rotation
             jaffaSprite.x += Math.cos(jaffaSprite.rotation - Math.PI / 2) * velocity * delta;
             jaffaSprite.y += Math.sin(jaffaSprite.rotation - Math.PI / 2) * velocity * delta;
 
-
-            // Ensure the rocket stays within the screen bounds
             wrapAround(jaffaSprite, app.screen.width, app.screen.height);
         });
 
         return jaffaSprite;
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error in createJaffaRocket:", error);
     }
 }

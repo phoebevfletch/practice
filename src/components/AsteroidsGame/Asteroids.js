@@ -5,14 +5,17 @@ import GamePopup from "./GamePopup";
 import "./Asteroids.css";
 import { createMultipleJaffas, jaffas } from "./JaffasteroidsWhole";
 import { updateJaffaCakes, handleCollisions } from "./CollisionBullets";
-import { bullets, updateBullets } from './Bullets'; // Import the bullets array and updateBullets function
+import { bullets, updateBullets } from './Bullets';
 import { resetGame } from './ResetGame';
 import ScoreCount from "./ScoreCount";
 
 const Asteroids = () => {
     const canvasRef = useRef(null);
     const [gameStarted, setGameStarted] = useState(false);
-    const [score, setScore] = useState(0); // Track the score
+
+    const startGame = () => {
+        setGameStarted(true);
+    };
 
     useEffect(() => {
         if (!gameStarted) return;
@@ -28,35 +31,34 @@ const Asteroids = () => {
             canvasContainer.appendChild(app.view);
         }
 
-        // Global state cleanup before starting the game
-        bullets.splice(0, bullets.length); // Clear bullets array
-        jaffas.splice(0, jaffas.length);  // Clear Jaffa array
+        // Global state cleanup
+        bullets.splice(0, bullets.length);
+        jaffas.splice(0, jaffas.length);
 
-        // Initialize the game components
-        createJaffaRocket(app); // Initialize the Jaffa Rocket
-        createMultipleJaffas(app, 5); // Add initial Jaffas
+        // Initialize the rocket sprite
+        let rocketSprite;
+        (async () => {
+            rocketSprite = await createJaffaRocket(app);
+        })();
 
-        const updateScore = (points) => {
-            setScore((prevScore) => prevScore + points); // Increment the score
-        };
+        createMultipleJaffas(app, 5);
 
-        // Add the update logic to the game loop
         const tickerCallback = (delta) => {
+            if (!rocketSprite) return; // Ensure rocket is ready before processing
             updateJaffaCakes(app);
             updateBullets(app, delta);
 
-            // Update collisions and handle scoring
-            handleCollisions(bullets, app, updateScore, resetGame);
+            // Check collisions
+            handleCollisions(bullets, app);
 
-            // Check if all asteroids are destroyed
+            // Reset game if all Jaffa Cakes are destroyed
             if (jaffas.length === 0) {
-                resetGame(app); // Reset game
+                resetGame(app);
             }
         };
 
         app.ticker.add(tickerCallback);
 
-        // Cleanup function
         return () => {
             app.ticker.remove(tickerCallback);
             app.stage.removeChildren();
@@ -66,17 +68,15 @@ const Asteroids = () => {
         };
     }, [gameStarted]);
 
-    const startGame = () => {
-        setGameStarted(true);
-    };
-
     return (
         <div className="asteroids-container" ref={canvasRef}>
             {!gameStarted && <GamePopup onStartGame={startGame} />}
-            {gameStarted && <ScoreCount score={score} />}
+            {gameStarted && <ScoreCount />}
         </div>
     );
 };
 
 export default Asteroids;
+
+
 
