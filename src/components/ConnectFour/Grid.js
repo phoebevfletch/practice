@@ -3,6 +3,7 @@ import GridImage from "./ConnectFourGrid.png";
 import FrontJaffa from "./FrontJaffaCake.png";
 import BackJaffa from "./BackJaffaCake.png";
 import './Connect4.css';
+import GamePopupC4 from "./GamePopupConnect4"; // Import the GamePopup component
 
 const Grid = () => {
     const rows = 6;
@@ -15,7 +16,11 @@ const Grid = () => {
     const [winner, setWinner] = useState(null);
     const [tie, setTie] = useState(false);
     const [columnCounts, setColumnCounts] = useState(Array(columns).fill(0));
-    const [lastHoveredIndex, setLastHoveredIndex] = useState(0); // New state to track the last hovered column
+    const [gameStarted, setGameStarted] = useState(false); // State to track if the game has started
+
+    const handleStartGame = () => {
+        setGameStarted(true); // Start the game by changing state
+    };
 
     const handleClick = (columnIndex) => {
         if (winner || tie) return;
@@ -28,7 +33,7 @@ const Grid = () => {
 
         const newRow = rows - tokenCountInColumn - 1;
         const newTokenPosition = {
-            left: `${33.7 + columnIndex * 4.8}%`,
+            left: `${33.7 + columnIndex * 4.7}%`,
             bottom: `${12.4 + tokenCountInColumn * 13.9}%`
         };
         const newToken = {
@@ -58,7 +63,6 @@ const Grid = () => {
         }
 
         setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
-        setLastHoveredIndex(0); // Reset to the default visible token for the new player
     };
 
     const checkWinner = (row, col, player, board) => {
@@ -69,7 +73,6 @@ const Grid = () => {
             { r: 1, c: -1 } // diagonal (top-right to bottom-left)
         ];
 
-        // Helper function to count the consecutive tokens in a given direction
         const countConsecutive = (row, col, rowDelta, colDelta) => {
             let count = 0;
             let r = row + rowDelta;
@@ -90,21 +93,19 @@ const Grid = () => {
             return count;
         };
 
-        // Check all directions for a four-in-a-row
         for (const direction of directions) {
             const count =
-                1 + // Count the current token
-                countConsecutive(row, col, direction.r, direction.c) + // Count in the positive direction
-                countConsecutive(row, col, -direction.r, -direction.c); // Count in the negative direction
+                1 +
+                countConsecutive(row, col, direction.r, direction.c) +
+                countConsecutive(row, col, -direction.r, -direction.c);
 
             if (count >= 4) {
-                return true; // Winner found
+                return true;
             }
         }
 
-        return false; // No winner found
+        return false;
     };
-
 
     const resetGame = () => {
         setBoard(Array.from({ length: rows }, () => Array(columns).fill(null)));
@@ -113,17 +114,14 @@ const Grid = () => {
         setWinner(null);
         setTie(false);
         setColumnCounts(Array(columns).fill(0));
-        setLastHoveredIndex(0); // Reset to the leftmost token
     };
 
     const renderJaffaRain = () => {
-        // If there's no winner, don't show the rain effect
         if (!winner) return null;
 
-        // Create an array of random Jaffa Cake elements to fall
         const jaffaCakes = Array.from({ length: 30 }, (_, index) => {
-            const leftPosition = Math.floor(Math.random() * 100); // Random horizontal position
-            const delay = Math.random() * 2; // Random animation delay
+            const leftPosition = Math.floor(Math.random() * 100);
+            const delay = Math.random() * 2;
 
             return (
                 <img
@@ -141,58 +139,63 @@ const Grid = () => {
 
     return (
         <div className="game-container">
-            {renderJaffaRain()}
-            <div
-                className="buttons-container"
-                onMouseLeave={() => setLastHoveredIndex(lastHoveredIndex)} // When mouse leaves the container, keep the last hovered token visible
-            >
-                {Array.from({ length: columns }, (_, index) => (
-                    <button
-                        key={index}
-                        className={`grid-button ${index === lastHoveredIndex ? "default-visible" : ""}`}
-                        onClick={() => handleClick(index)}
-                        onMouseEnter={() => setLastHoveredIndex(index)} // Set the last hovered index to the current index on hover
-                        style={{
-                            backgroundImage: `url(${currentPlayer === 1 ? FrontJaffa : BackJaffa})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            backgroundRepeat: "no-repeat"
-                        }}
-                    />
-                ))}
-            </div>
+            {/* Show popup if game has not started */}
+            {!gameStarted && <GamePopupC4 onStartGame={handleStartGame} />}
 
-            <div className="grid-container">
-                <img src={GridImage} alt="Connect Four Grid" className="grid-image" />
+            {/* Main game content */}
+            {gameStarted && (
+                <>
+                    {renderJaffaRain()}
+                    <div className="buttons-container">
+                        {Array.from({ length: columns }, (_, index) => (
+                            <button
+                                key={index}
+                                className="grid-button"
+                                onClick={() => handleClick(index)}
+                                style={{
+                                    backgroundImage: `url(${currentPlayer === 1 ? FrontJaffa : BackJaffa})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat"
+                                }}
+                            />
+                        ))}
+                    </div>
 
-                {tokens.map((token, index) => (
-                    <img
-                        key={index}
-                        src={token.tokenType}
-                        alt={token.tokenType === FrontJaffa ? "Front JaffaCake" : "Back JaffaCake"}
-                        className="jaffa-token"
-                        style={{ left: token.left, bottom: token.bottom }}
-                    />
-                ))}
-            </div>
+                    <div className="grid-container">
+                        <img src={GridImage} alt="Connect Four Grid" className="grid-image" />
 
-            {winner && (
-                <div className="winner-message">
-                    <div>{winner === 1 ? "Player 1" : "Player 2"} Wins!</div>
-                    <button className="reset-button" onClick={resetGame}>Reset Game</button>
-                </div>
-            )}
-            {tie && (
-                <div className="winner-message">
-                    <div>It's a Tie!</div>
-                    <button className="reset-button" onClick={resetGame}>Reset Game</button>
-                </div>
+                        {tokens.map((token, index) => (
+                            <img
+                                key={index}
+                                src={token.tokenType}
+                                alt={token.tokenType === FrontJaffa ? "Front JaffaCake" : "Back JaffaCake"}
+                                className="jaffa-token"
+                                style={{ left: token.left, bottom: token.bottom }}
+                            />
+                        ))}
+                    </div>
+
+                    {winner && (
+                        <div className="winner-message">
+                            <div>{winner === 1 ? "Player 1" : "Player 2"} Wins!</div>
+                            <button className="reset-button" onClick={resetGame}>Reset Game</button>
+                        </div>
+                    )}
+                    {tie && (
+                        <div className="winner-message">
+                            <div>It's a Tie!</div>
+                            <button className="reset-button" onClick={resetGame}>Reset Game</button>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );
 };
 
 export default Grid;
+
 
 
 
