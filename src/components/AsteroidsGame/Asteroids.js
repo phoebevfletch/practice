@@ -6,8 +6,8 @@ import "./Asteroids.css";
 import { createMultipleJaffas, jaffas } from "./JaffasteroidsWhole";
 import { updateJaffaCakes, handleCollisions } from "./CollisionBullets";
 import { bullets, updateBullets } from './Bullets';
-import { resetGame } from './ResetGame';
 import ScoreCount from "./ScoreCount";
+import { handleRocketCollision } from "./CollisionRocket";
 
 const Asteroids = () => {
     const canvasRef = useRef(null);
@@ -35,12 +35,12 @@ const Asteroids = () => {
         bullets.splice(0, bullets.length);
         jaffas.splice(0, jaffas.length);
 
-        // Initialize the rocket sprite
         let rocketSprite;
         (async () => {
             rocketSprite = await createJaffaRocket(app);
         })();
 
+        // Start the first wave
         createMultipleJaffas(app, 5);
 
         const tickerCallback = (delta) => {
@@ -48,17 +48,19 @@ const Asteroids = () => {
             updateJaffaCakes(app);
             updateBullets(app, delta);
 
-            // Check collisions
+            // Check rocket-asteroid collisions
+            handleRocketCollision(rocketSprite, jaffas, app);
+
+            // Check bullet-asteroid collisions
             handleCollisions(bullets, app);
 
-            // Reset game if all Jaffa Cakes are destroyed
-            if (jaffas.length === 0) {
-                resetGame(app);
-            }
+            // Advance to the next wave if all Jaffa Cakes are destroyed
+            // if (jaffas.length === 0) {
+            //   advanceWave(app);
+            // }
         };
 
         app.ticker.add(tickerCallback);
-
         return () => {
             app.ticker.remove(tickerCallback);
             app.stage.removeChildren();
@@ -67,6 +69,7 @@ const Asteroids = () => {
             jaffas.splice(0, jaffas.length);
         };
     }, [gameStarted]);
+
 
     return (
         <div className="asteroids-container" ref={canvasRef}>
