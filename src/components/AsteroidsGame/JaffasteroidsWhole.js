@@ -1,10 +1,11 @@
 import { Sprite, Assets } from "pixi.js";
 import { wrapAround } from "./utils";
 import WholeJaffa from "./JaffaCake.png";
+import { jaffaTimeouts, baseSpeed } from "./ResetGame";
 
 export const jaffas = []; // Array to track all JaffaCakes
 
-export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, speedMultiplier = 0.5) {
+export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, speedMultiplier = baseSpeed) {
     try {
         const texture = await Assets.load(WholeJaffa);
         if (!texture) {
@@ -14,10 +15,19 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
 
         // Clear existing Jaffa Cakes and remove their sprites from the stage
         jaffas.forEach(({ sprite }) => app.stage.removeChild(sprite));
-        jaffas.length = 0; // Reset the array
+        jaffas.splice(0, jaffas.length);
+        //jaffas.length = 0; // Reset the array
 
-        const spawnJaffa = (i) => {
+        let jaffaCount = 0;
+
+        const spawnJaffa = () => {
+            if (jaffaCount >= numJaffas) {
+                console.log('No more Jaffas to Spawn');
+                return;
+            } // Stop when we've spawned enough Jaffas
+
             const jaffaSprite = new Sprite(texture);
+
 
             // Randomly place the Jaffas at the left or right side of the screen
             const side = Math.random() > 0.5 ? app.screen.width : 0;
@@ -47,11 +57,13 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
             const distance = Math.sqrt(directionX * directionX + directionY * directionY);
 
             // Normalize the direction and apply speed multiplier
-            const speedX = (directionX / distance) * speedMultiplier;
-            const speedY = (directionY / distance) * speedMultiplier;
+            const speedX = 0.001; //(directionX / distance) * speedMultiplier;
+            const speedY = 0.001; //(directionY / distance) * speedMultiplier;
 
-            const rotates = Math.random() * 0.02 - 0.015;
+            // control speed of big jaffas
+            const rotates = 0.01 //Math.random() * 0.02 - 0.015;
 
+            // Add the Jaffa Cake to the tracking array and stage
             jaffas.push({
                 sprite: jaffaSprite,
                 speedX,
@@ -60,11 +72,17 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
                 generation: 0
             });
             app.stage.addChild(jaffaSprite);
+
+            jaffaCount++; // Increment the count of spawned Jaffas
+
+            // Schedule the next Jaffa after 1 second
+            if (jaffaCount < numJaffas) {
+                jaffaTimeouts.push(setTimeout(spawnJaffa, 1000)); // Schedule the next spawn in 1 second
+            }
         };
 
-        for (let i = 0; i < numJaffas; i++) {
-            setTimeout(() => spawnJaffa(i), i * 2000); // Delay by 2 seconds for each Jaffa
-        }
+        // Start spawning the Jaffas
+        spawnJaffa();
 
         // Update movement logic for Jaffas
         app.ticker.add((delta) => {
@@ -72,7 +90,6 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
                 jaffa.sprite.x += jaffa.speedX * delta;
                 jaffa.sprite.y += jaffa.speedY * delta;
                 jaffa.sprite.rotation += jaffa.rotates * delta;
-
                 wrapAround(jaffa.sprite, app.screen.width, app.screen.height);
             });
         });
@@ -80,6 +97,8 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
         console.error("Error in createMultipleJaffas:", error);
     }
 }
+
+
 
 
 

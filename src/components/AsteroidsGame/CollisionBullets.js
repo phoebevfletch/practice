@@ -1,8 +1,8 @@
 import { Sprite } from "pixi.js";
-import { Graphics } from "pixi.js";
 import { wrapAround } from "./utils";
-import { jaffas } from "./JaffasteroidsWhole"; // Import jaffas array from JaffasteroidsWhole
-
+import { jaffas } from "./JaffasteroidsWhole";
+import { advanceWave } from "./ResetGame";
+import { baseSpeed } from "./ResetGame"
 /**
  * Check if two sprites are colliding
  * @param {Sprite|Graphics} sprite1 
@@ -31,7 +31,7 @@ function splitJaffaCake(jaffaCake, app) {
     }
 
     const newScale = currentScale / 2;
-    const speedMultiplier = 0.5;
+    // const baseSpeed = 0.5;
 
     for (let i = 0; i < 2; i++) {
         const newJaffa = new Sprite(jaffaCake.texture);
@@ -39,16 +39,22 @@ function splitJaffaCake(jaffaCake, app) {
         newJaffa.anchor.set(0.5);
         newJaffa.x = jaffaCake.x + (Math.random() * 100 - 50);
         newJaffa.y = jaffaCake.y + (Math.random() * 100 - 50);
-        newJaffa.speedX = (Math.random() * 1 - 0.8) * speedMultiplier;
-        newJaffa.speedY = (Math.random() * 1 - 0.8) * speedMultiplier;
-        newJaffa.rotates = Math.random() * 0.05 - 0.025;
+
+        // Assign constant or limited rotation speed
+        const rotates = 0.01; //Math.random() * 0.01 + 0.005; // Rotation between 0.005 and 0.01 radians/frame
+        const speedX = (Math.random() - 0.5) * baseSpeed;
+        const speedY = (Math.random() - 0.5) * baseSpeed;
+
+        newJaffa.rotation = rotates; // Assign rotation speed
+        newJaffa.speedX = speedX;
+        newJaffa.speedY = speedY;
         newJaffa.generation = (jaffaCake.generation || 0) + 1;
 
         jaffas.push({
             sprite: newJaffa,
             speedX: newJaffa.speedX,
             speedY: newJaffa.speedY,
-            rotates: newJaffa.rotates,
+            rotates: newJaffa.rotation,
             generation: newJaffa.generation,
         });
 
@@ -94,9 +100,14 @@ export function handleCollisions(bullets, app) {
 
                 // Remove the original Jaffa Cake from the array
                 jaffas.splice(j, 1);
+                // Advance to the next wave if all Jaffa Cakes are destroyed
+                if (jaffas.length === 0) {
+                    advanceWave(app);
+                }
 
                 break; // Stop checking other Jaffa Cakes for this bullet
             }
+
 
         }
     }
@@ -130,12 +141,13 @@ export function updateJaffaCakes(app) {
         }
 
         const { sprite, speedX, speedY, rotates } = jaffa;
-
         // Update position and rotation
         sprite.x += speedX * app.ticker.deltaTime;
         sprite.y += speedY * app.ticker.deltaTime;
         sprite.rotation += rotates * app.ticker.deltaTime;
-
+        if (jaffa.generation === 1) {
+            console.log("gen1 Rotation ", sprite.rotation);
+        }
         // Wrap around the screen
         wrapAround(sprite, app.screen.width, app.screen.height);
     }

@@ -14,19 +14,19 @@ export async function createJaffaRocket(app) {
             return;
         }
 
-        const jaffaSprite = new Sprite(texture);
-        jaffaSprite.scale.set(0.3, 0.3);
-        jaffaSprite.anchor.set(0.5);
-        jaffaSprite.x = app.screen.width / 2;
-        jaffaSprite.y = app.screen.height / 2;
+        const rocketSprite = new Sprite(texture);
+        rocketSprite.scale.set(0.3, 0.3);
+        rocketSprite.anchor.set(0.5);
+        rocketSprite.x = app.screen.width / 2;
+        rocketSprite.y = app.screen.height / 2;
 
         const flame = new Sprite(flameTexture);
         flame.anchor.set(0.5, 1.7); // Anchor at the top center of the flame
         flame.scale.set(0.2, -0.15); // Scale down and flip vertically
         flame.visible = false; // Initially hidden
-        jaffaSprite.addChild(flame);
+        rocketSprite.addChild(flame);
 
-        app.stage.addChild(jaffaSprite);
+        app.stage.addChild(rocketSprite);
 
         let velocity = 0;
         const acceleration = 0.3;
@@ -37,11 +37,11 @@ export async function createJaffaRocket(app) {
         const cooldownFrames = 10; // firing rate
 
         app.ticker.add((delta) => {
-            if (!jaffaSprite.texture || !jaffaSprite.width || !jaffaSprite.height) {
+            if (!rocketSprite.texture || !rocketSprite.width || !rocketSprite.height) {
                 return;
             }
 
-            const bounds = jaffaSprite.getBounds();
+            const bounds = rocketSprite.getBounds();
             flame.position.set(0, bounds.height / 2 + 5);
 
             if (KeyListener["ArrowUp"]) {
@@ -53,19 +53,19 @@ export async function createJaffaRocket(app) {
             }
 
             if (KeyListener["ArrowLeft"]) {
-                jaffaSprite.rotation -= rotationSpeed * delta; // Rotate left
+                rocketSprite.rotation -= rotationSpeed * delta; // Rotate left
             }
 
             if (KeyListener["ArrowRight"]) {
-                jaffaSprite.rotation += rotationSpeed * delta; // Rotate right
+                rocketSprite.rotation += rotationSpeed * delta; // Rotate right
             }
 
             if (KeyListener[" "]) { // Space bar for shooting
                 if (shootCooldown <= 0) {
                     createBullet(
-                        jaffaSprite.x + Math.cos(jaffaSprite.rotation - Math.PI / 2) * (jaffaSprite.height / 2),
-                        jaffaSprite.y + Math.sin(jaffaSprite.rotation - Math.PI / 2) * (jaffaSprite.height / 2),
-                        jaffaSprite.rotation,
+                        rocketSprite.x + Math.cos(rocketSprite.rotation - Math.PI / 2) * (rocketSprite.height / 2),
+                        rocketSprite.y + Math.sin(rocketSprite.rotation - Math.PI / 2) * (rocketSprite.height / 2),
+                        rocketSprite.rotation,
                         app
                     );
                     shootCooldown = cooldownFrames;
@@ -78,13 +78,13 @@ export async function createJaffaRocket(app) {
 
             updateBullets(app, delta);
 
-            jaffaSprite.x += Math.cos(jaffaSprite.rotation - Math.PI / 2) * velocity * delta;
-            jaffaSprite.y += Math.sin(jaffaSprite.rotation - Math.PI / 2) * velocity * delta;
+            rocketSprite.x += Math.cos(rocketSprite.rotation - Math.PI / 2) * velocity * delta;
+            rocketSprite.y += Math.sin(rocketSprite.rotation - Math.PI / 2) * velocity * delta;
 
-            wrapAround(jaffaSprite, app.screen.width, app.screen.height);
+            wrapAround(rocketSprite, app.screen.width, app.screen.height);
         });
 
-        return jaffaSprite;
+        return rocketSprite;
     } catch (error) {
         console.error("Error in createJaffaRocket:", error);
     }
