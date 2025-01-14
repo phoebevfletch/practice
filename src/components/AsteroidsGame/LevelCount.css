@@ -1,16 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Rancho&family=Old+Standard+TT:wght@400;700&display=swap');
 
-.score-counter {
+.level-counter {
     position: absolute;
     top: 4%;
     /* Centre vertically */
-    left: 15%;
+    left: 50%;
     /* Centre horizontally */
     transform: translate(-50%, -50%);
+    opacity: 90%;
     font-size: 35px;
     color: white;
     font-family: 'Rancho', sans-serif;
-    /* background-color: rgb(91, 47, 0);
+    background-color: rgb(91, 47, 0);
     /* Solid background color */
     padding: 10px 20px;
     /* Adjust padding for aesthetics */

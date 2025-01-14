@@ -1,11 +1,20 @@
 import { Sprite, Assets } from "pixi.js";
-import { wrapAround } from "./utils";
 import WholeJaffa from "./JaffaCake.png";
 import { jaffaTimeouts, baseSpeed } from "./ResetGame";
+import { handleRocketCollision } from './CollisionRocket';
 
-export const jaffas = []; // Array to track all JaffaCakes
+export const jaffaBox = []; // Array to track all JaffaCakes 
+export let jaffaSpawnCount = 0;
+
+export function resetJaffaSpawnCount() {
+    jaffaSpawnCount = 0;
+}
+export function incrementJaffaSpawnCount() {
+    jaffaSpawnCount++;
+}
 
 export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, speedMultiplier = baseSpeed) {
+    console.log("base speed ", baseSpeed);
     try {
         const texture = await Assets.load(WholeJaffa);
         if (!texture) {
@@ -13,94 +22,74 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
             return;
         }
 
-        // Clear existing Jaffa Cakes and remove their sprites from the stage
-        jaffas.forEach(({ sprite }) => app.stage.removeChild(sprite));
-        jaffas.splice(0, jaffas.length);
-        //jaffas.length = 0; // Reset the array
-
-        let jaffaCount = 0;
+        // Clear existing Jaffa Cakes and reset spawn count
+        jaffaBox.forEach(({ sprite }) => app.stage.removeChild(sprite));
+        jaffaBox.splice(0, jaffaBox.length);
+        jaffaSpawnCount = 0; // Reset the spawn count for the wave
 
         const spawnJaffa = () => {
-            if (jaffaCount >= numJaffas) {
-                console.log('No more Jaffas to Spawn');
+            // Stop if the app or texture is undefined
+            if (!app || !app.stage || !texture) {
+                console.log("Stopping Jaffa spawn due to missing app or texture.");
                 return;
-            } // Stop when we've spawned enough Jaffas
+            }
 
             const jaffaSprite = new Sprite(texture);
 
+            // Ensure the sprite and texture are valid before accessing their properties
+            if (!jaffaSprite || !jaffaSprite.texture) {
+                console.error("Jaffa sprite or texture is undefined. Aborting spawn.");
+                return;
+            }
 
-            // Randomly place the Jaffas at the left or right side of the screen
             const side = Math.random() > 0.5 ? app.screen.width : 0;
             jaffaSprite.position.set(
-                side, // Start on either the left (0) or right (app.screen.width)
-                Math.random() * app.screen.height // Random Y position within the screen
+                side,
+                Math.random() * app.screen.height
             );
 
             jaffaSprite.scale.set(scale, scale);
             jaffaSprite.anchor.set(0.5);
 
-            // Define a "central area" where Jaffas will move towards
             const centerX = app.screen.width / 2;
             const centerY = app.screen.height / 2;
-
-            // Create random offset around the center (within a 200px radius)
-            const randomOffsetX = Math.random() * 400 - 200; // Random X within a range of -200 to 200
-            const randomOffsetY = Math.random() * 400 - 200; // Random Y within a range of -200 to 200
-
-            // Random target point within the central region
+            const randomOffsetX = Math.random() * 400 - 200;
+            const randomOffsetY = Math.random() * 400 - 200;
             const targetX = centerX + randomOffsetX;
             const targetY = centerY + randomOffsetY;
 
-            // Calculate the direction vector towards the random target
             const directionX = targetX - jaffaSprite.x;
             const directionY = targetY - jaffaSprite.y;
             const distance = Math.sqrt(directionX * directionX + directionY * directionY);
 
-            // Normalize the direction and apply speed multiplier
-            const speedX = 0.001; //(directionX / distance) * speedMultiplier;
-            const speedY = 0.001; //(directionY / distance) * speedMultiplier;
+            const speedX = (directionX / distance) * speedMultiplier;
+            const speedY = (directionY / distance) * speedMultiplier;
 
-            // control speed of big jaffas
-            const rotates = 0.01 //Math.random() * 0.02 - 0.015;
+            const speedRotation = Math.random() * 0.02 - 0.015;
 
-            // Add the Jaffa Cake to the tracking array and stage
-            jaffas.push({
+            jaffaBox.push({
                 sprite: jaffaSprite,
                 speedX,
                 speedY,
-                rotates,
+                speedRotation,
                 generation: 0
             });
             app.stage.addChild(jaffaSprite);
 
-            jaffaCount++; // Increment the count of spawned Jaffas
+            jaffaSpawnCount++; // Increment spawn count
 
-            // Schedule the next Jaffa after 1 second
-            if (jaffaCount < numJaffas) {
-                jaffaTimeouts.push(setTimeout(spawnJaffa, 1000)); // Schedule the next spawn in 1 second
+            if (jaffaSpawnCount < numJaffas) {
+                jaffaTimeouts.push(setTimeout(spawnJaffa, 1000)); // Spawn next asteroid
             }
         };
 
-        // Start spawning the Jaffas
-        spawnJaffa();
 
-        // Update movement logic for Jaffas
-        app.ticker.add((delta) => {
-            jaffas.forEach((jaffa) => {
-                jaffa.sprite.x += jaffa.speedX * delta;
-                jaffa.sprite.y += jaffa.speedY * delta;
-                jaffa.sprite.rotation += jaffa.rotates * delta;
-                wrapAround(jaffa.sprite, app.screen.width, app.screen.height);
-            });
-        });
+        spawnJaffa(); // Start spawning
+
     } catch (error) {
         console.error("Error in createMultipleJaffas:", error);
     }
 }
-
-
-
-
 
 
 
