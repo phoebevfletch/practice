@@ -9,7 +9,7 @@ import { bullets, updateBullets } from './Bullets';
 import ScoreCount from "./ScoreCount";
 import { handleRocketCollision } from "./CollisionRocket";
 import LevelCount from "./LevelCount";
-import ThreeLives from "./ThreeLives"; // Import ThreeLives
+// import ThreeLives from "./ThreeLives"; // Import ThreeLives
 
 
 const Asteroids = () => {
