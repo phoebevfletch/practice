@@ -9,6 +9,13 @@ let currentLevel = 1; // Starting level
 
 export const getCurrentLevel = () => currentLevel; // Getter for the current level
 
+export function resetBaseSpeed() {
+    baseSpeed = 0.3; // Reset baseSpeed to the initial value
+}
+
+export function resetLevel() {
+    currentLevel = 1; // Reset level to 1
+}
 
 function advanceWave(app) {
     if (jaffaSpawnCount < 5 || jaffaBox.length > 0) {
@@ -18,7 +25,7 @@ function advanceWave(app) {
     currentLevel += 1;
     console.log(`Advancing to wave ${currentLevel}`);
     baseScale *= 0.98; // Reduce scale
-    baseSpeed *= 1.1;  // Increase speed
+    baseSpeed *= 1.3;  // Increase speed
 
     // Clear Jaffa Cakes
     jaffaBox.forEach(({ sprite }) => {
@@ -45,7 +52,13 @@ function advanceWave(app) {
 let jaffaTimeouts = []; // Keep track of all active timeouts
 
 
-function resetToCurrentWave(app) {
+export function clearJaffaTimeouts() {
+    jaffaTimeouts.forEach(timeout => clearTimeout(timeout));
+    jaffaTimeouts = []; // Reset timeout array
+}
+
+
+function resetToCurrentWave(app, rocketSprite) {
     // Clear existing Jaffa Cakes
     jaffaBox.forEach(({ sprite }) => {
         if (sprite && app.stage.children.includes(sprite)) {
@@ -66,9 +79,15 @@ function resetToCurrentWave(app) {
 
     // Recreate Jaffa Cakes for the current wave
     createMultipleJaffas(app, 5, baseScale, baseSpeed);
+
+    // Center the rocket sprite
+    if (rocketSprite) {
+        rocketSprite.x = app.screen.width / 2;
+        rocketSprite.y = app.screen.height / 2;
+        rocketSprite.rotation = 0; // Reset rotation
+        rocketSprite.velocity = 0; // Reset velocity (if applicable)
+    }
 }
-
-
 
 
 export { jaffaTimeouts, baseSpeed, advanceWave, resetToCurrentWave };

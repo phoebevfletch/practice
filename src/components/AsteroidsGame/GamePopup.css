@@ -1,40 +1,59 @@
-/* Fullscreen overlay */
 .popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
 }
 
-/* Popup content */
 .popup-content {
-    background: white;
+    background: #fff;
+    padding: 20px 30px;
     border-radius: 10px;
-    padding: 20px;
-    width: 400px;
-    max-width: 90%;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
 }
 
-/* Start button */
+.popup-content h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.popup-content p {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.popup-content ul {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.popup-content li {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
 .start-button {
-    padding: 10px 20px;
-    margin-top: 20px;
-    font-size: 16px;
+    background: #007BFF;
     color: white;
-    background-color: #007BFF;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
 }
 
 .start-button:hover {
-    background-color: #0056b3;
+    background: #0056b3;
 }

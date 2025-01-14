@@ -28,12 +28,20 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
         jaffaSpawnCount = 0; // Reset the spawn count for the wave
 
         const spawnJaffa = () => {
-            if (jaffaSpawnCount >= numJaffas) {
-                console.log('All Jaffas spawned for this wave');
-                return; // Stop spawning more Jaffas
+            // Stop if the app or texture is undefined
+            if (!app || !app.stage || !texture) {
+                console.log("Stopping Jaffa spawn due to missing app or texture.");
+                return;
             }
 
             const jaffaSprite = new Sprite(texture);
+
+            // Ensure the sprite and texture are valid before accessing their properties
+            if (!jaffaSprite || !jaffaSprite.texture) {
+                console.error("Jaffa sprite or texture is undefined. Aborting spawn.");
+                return;
+            }
+
             const side = Math.random() > 0.5 ? app.screen.width : 0;
             jaffaSprite.position.set(
                 side,
@@ -71,9 +79,10 @@ export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, spee
             jaffaSpawnCount++; // Increment spawn count
 
             if (jaffaSpawnCount < numJaffas) {
-                jaffaTimeouts.push(setTimeout(spawnJaffa, 5000)); // Spawn next asteroid
+                jaffaTimeouts.push(setTimeout(spawnJaffa, 1000)); // Spawn next asteroid
             }
         };
+
 
         spawnJaffa(); // Start spawning
 

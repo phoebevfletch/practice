@@ -119,6 +119,11 @@ export function handleCollisions(bullets, app) {
     }
 }
 
+
+export function resetScore() {
+    score = 0; // Reset score to 0
+}
+
 // Export score for other modules if needed
 export function getScore() {
     return score;

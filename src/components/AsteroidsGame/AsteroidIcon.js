@@ -11,26 +11,29 @@ export async function createJaffaRocket(app) {
         const flameTexture = await Assets.load(flameTexturePath);
 
         if (!texture || !flameTexture) {
-            return;
+            return null; // Return null if assets failed to load
         }
 
         const rocketSprite = new Sprite(texture);
         rocketSprite.scale.set(0.3, 0.3);
         rocketSprite.anchor.set(0.5);
+
+        // Dynamically calculate the center of the screen
         rocketSprite.x = app.screen.width / 2;
         rocketSprite.y = app.screen.height / 2;
 
         const flame = new Sprite(flameTexture);
-        flame.anchor.set(0.5, 1.7); // Anchor at the top center of the flame
-        flame.scale.set(0.2, -0.15); // Scale down and flip vertically
-        flame.visible = false; // Initially hidden
+        flame.anchor.set(0.5, 1.7);
+        flame.scale.set(0.2, -0.15);
+        flame.visible = false;
         rocketSprite.addChild(flame);
 
         app.stage.addChild(rocketSprite);
 
-        let velocity = 0;
-        const acceleration = 0.3;
-        const maxSpeed = 2;
+        let velocityX = 0;
+        let velocityY = 0
+        const acceleration = 0.2;
+        const maxSpeed = 4;
         const rotationSpeed = 0.1;
 
         let shootCooldown = 0; // Prevent constant firing
@@ -45,12 +48,23 @@ export async function createJaffaRocket(app) {
             flame.position.set(0, bounds.height / 2 + 5);
 
             if (KeyListener["ArrowUp"]) {
-                velocity = Math.min(velocity + acceleration * delta, maxSpeed);
+                velocityX += Math.cos(rocketSprite.rotation - Math.PI / 2) * acceleration * delta;
+                velocityY += Math.sin(rocketSprite.rotation - Math.PI / 2) * acceleration * delta;
+                // Limit the speed to maxSpeed
+                const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+                if (speed > maxSpeed) {
+                    velocityX = (velocityX / speed) * maxSpeed;
+                    velocityY = (velocityY / speed) * maxSpeed;
+                }
+
                 flame.visible = true; // Show flame when accelerating
             } else {
-                velocity *= 0.98 ** delta; // Apply friction
                 flame.visible = false; // Hide flame
             }
+
+            // Apply friction to gradually reduce velocity
+            velocityX *= 0.99 ** delta;
+            velocityY *= 0.99 ** delta;
 
             if (KeyListener["ArrowLeft"]) {
                 rocketSprite.rotation -= rotationSpeed * delta; // Rotate left
@@ -78,15 +92,17 @@ export async function createJaffaRocket(app) {
 
             updateBullets(app, delta);
 
-            rocketSprite.x += Math.cos(rocketSprite.rotation - Math.PI / 2) * velocity * delta;
-            rocketSprite.y += Math.sin(rocketSprite.rotation - Math.PI / 2) * velocity * delta;
+            // Update the rocket's position using velocity
+            rocketSprite.x += velocityX * delta;
+            rocketSprite.y += velocityY * delta;
 
             wrapAround(rocketSprite, app.screen.width, app.screen.height);
         });
 
-        return rocketSprite;
+        return rocketSprite; // Return the rocket sprite
     } catch (error) {
         console.error("Error in createJaffaRocket:", error);
+        return null;
     }
 }
 
