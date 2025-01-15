@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/PhoebeJaffaPage/static/css/main.55bbf5c9.css",
-    "main.js": "/PhoebeJaffaPage/static/js/main.19fa8344.js",
+    "main.js": "/PhoebeJaffaPage/static/js/main.ff9bc66e.js",
     "static/media/BackJaffaCake.png": "/PhoebeJaffaPage/static/media/BackJaffaCake.11b424286443679a4de7.png",
     "static/media/ConnectFourGrid.png": "/PhoebeJaffaPage/static/media/ConnectFourGrid.ae3a55d919510f9342c9.png",
     "static/media/FrontJaffaCake.png": "/PhoebeJaffaPage/static/media/FrontJaffaCake.f94846cd9ae64152f49e.png",
@@ -15,10 +15,10 @@
     "static/media/jaffacake_top_left.png": "/PhoebeJaffaPage/static/media/jaffacake_top_left.ffe46e5f68862cb7f604.png",
     "index.html": "/PhoebeJaffaPage/index.html",
     "main.55bbf5c9.css.map": "/PhoebeJaffaPage/static/css/main.55bbf5c9.css.map",
-    "main.19fa8344.js.map": "/PhoebeJaffaPage/static/js/main.19fa8344.js.map"
+    "main.ff9bc66e.js.map": "/PhoebeJaffaPage/static/js/main.ff9bc66e.js.map"
   },
   "entrypoints": [
     "static/css/main.55bbf5c9.css",
-    "static/js/main.19fa8344.js"
+    "static/js/main.ff9bc66e.js"
   ]
 }
