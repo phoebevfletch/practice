@@ -29,6 +29,7 @@ function splitJaffaCake(aJaffaCake, app) {
     const texture = aJaffaCake.sprite.texture;
     const currentX = aJaffaCake.sprite.x;
     const currentY = aJaffaCake.sprite.y;
+
     // Prevent further splitting if the scale is too small
     if (currentScale < 0.1 || aJaffaCake.generation >= 1) {
         app.stage.removeChild(aJaffaCake.sprite); // Remove the Jaffa Cake sprite
@@ -36,27 +37,24 @@ function splitJaffaCake(aJaffaCake, app) {
     }
 
     const newScale = currentScale / 2;
-    // const baseSpeed = 0.5;
+    const baseSpeed = 0.5;
 
     for (let i = 0; i < 2; i++) {
         const newJaffaSprite = new Sprite(texture);
         newJaffaSprite.scale.set(newScale, newScale);
         newJaffaSprite.anchor.set(0.5);
 
-        newJaffaSprite.x = currentX + (Math.random() * 100 - 50);
-        newJaffaSprite.y = currentY + (Math.random() * 100 - 50);
+        newJaffaSprite.x = currentX + (Math.random() * 100 - 75); // Randomize spawn position
+        newJaffaSprite.y = currentY + (Math.random() * 100 - 75);
 
         // Assign constant or limited rotation speed
         const speedRotation = Math.random() * 0.01 + 0.005; // Rotation between 0.005 and 0.01 radians/frame
-        const speedX = (Math.random() - 3) * baseSpeed;
-        const speedY = (Math.random() - 3) * baseSpeed;
 
-        newJaffaSprite.rotation = speedRotation; // Assign rotation
+        // Assign random speeds for X and Y directions
+        const speedX = (Math.random() * 2.5 - 1) * baseSpeed; // Random speed between -baseSpeed and +baseSpeed
+        const speedY = (Math.random() * 2.5 - 1) * baseSpeed; // Random speed between -baseSpeed and +baseSpeed
 
-        //newJaffaSprite.x = speedX;
-        //newJaffaSprite.y = speedY;
-        //newJaffaSprite.generation = (jaffaCake.generation || 0) + 1;
-
+        // Save properties to the jaffaBox
         jaffaBox.push({
             sprite: newJaffaSprite,
             speedX: speedX,
@@ -70,6 +68,7 @@ function splitJaffaCake(aJaffaCake, app) {
 
     app.stage.removeChild(aJaffaCake.sprite);
 }
+
 
 
 
