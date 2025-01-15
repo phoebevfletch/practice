@@ -42,13 +42,14 @@ function splitJaffaCake(aJaffaCake, app) {
         const newJaffaSprite = new Sprite(texture);
         newJaffaSprite.scale.set(newScale, newScale);
         newJaffaSprite.anchor.set(0.5);
+
         newJaffaSprite.x = currentX + (Math.random() * 100 - 50);
         newJaffaSprite.y = currentY + (Math.random() * 100 - 50);
 
         // Assign constant or limited rotation speed
         const speedRotation = Math.random() * 0.01 + 0.005; // Rotation between 0.005 and 0.01 radians/frame
-        const speedX = (Math.random() - 0.5) * baseSpeed;
-        const speedY = (Math.random() - 0.5) * baseSpeed;
+        const speedX = (Math.random() - 3) * baseSpeed;
+        const speedY = (Math.random() - 3) * baseSpeed;
 
         newJaffaSprite.rotation = speedRotation; // Assign rotation
 
