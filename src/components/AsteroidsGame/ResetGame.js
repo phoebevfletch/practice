@@ -4,13 +4,13 @@ import { jaffaSpawnCount, resetJaffaSpawnCount } from './JaffasteroidsWhole';
 
 
 let baseScale = 0.3; // Initial scale for JaffaCakes
-let baseSpeed = 0.3; // Initial speed multiplier
+let baseSpeed = 0.5; // Initial speed multiplier
 let currentLevel = 1; // Starting level
 
 export const getCurrentLevel = () => currentLevel; // Getter for the current level
 
 export function resetBaseSpeed() {
-    baseSpeed = 0.3; // Reset baseSpeed to the initial value
+    baseSpeed = 0.5; // Reset baseSpeed to the initial value
 }
 
 export function resetLevel() {
@@ -18,7 +18,7 @@ export function resetLevel() {
 }
 
 function advanceWave(app) {
-    if (jaffaSpawnCount < 5 || jaffaBox.length > 0) {
+    if (jaffaSpawnCount < 6 || jaffaBox.length > 0) {
         return; // Don't advance the wave yet
     }
 
@@ -43,7 +43,7 @@ function advanceWave(app) {
     resetJaffaSpawnCount();
 
     // Spawn new Jaffas
-    createMultipleJaffas(app, 5, baseScale, baseSpeed);
+    createMultipleJaffas(app, 6, baseScale, baseSpeed);
 }
 
 
@@ -78,7 +78,7 @@ function resetToCurrentWave(app, rocketSprite) {
     console.log("baseSpeed ", baseSpeed);
 
     // Recreate Jaffa Cakes for the current wave
-    createMultipleJaffas(app, 5, baseScale, baseSpeed);
+    createMultipleJaffas(app, 6, baseScale, baseSpeed);
 
     // Center the rocket sprite
     if (rocketSprite) {

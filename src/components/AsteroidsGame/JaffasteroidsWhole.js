@@ -13,7 +13,7 @@ export function incrementJaffaSpawnCount() {
     jaffaSpawnCount++;
 }
 
-export async function createMultipleJaffas(app, numJaffas = 5, scale = 0.3, speedMultiplier = baseSpeed) {
+export async function createMultipleJaffas(app, numJaffas = 6, scale = 0.3, speedMultiplier = baseSpeed) {
     console.log("base speed ", baseSpeed);
     try {
         const texture = await Assets.load(WholeJaffa);

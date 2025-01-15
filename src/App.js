@@ -17,7 +17,6 @@ const Navbar = () => (
             <li><Link className="nav-link" to="/quiz">Quiz</Link></li>
             <li><Link className="nav-link" to="/connectFourGame">Connect4</Link></li>
             <li><Link className="nav-link" to="/asteroids">Asteroids</Link></li>
-
         </ul>
     </nav>
 );
@@ -31,22 +30,16 @@ const HomePage = () => (
         <p>As you can see, Jaffa cakes are on this list...</p>
         <p className="App-imposter"><b>They are an IMPOSTER!!!!</b></p>
         <p>Jaffa cakes are actually cakes... hence the name Jaffa<b>Cake</b></p>
-        {/* <Title text="Jaffa Cake Lawsuit" /> */
-            <p>There was actually a lawsuit in 1991 over whether Jaffa Cakes were a biscuit or cake. This was to do with VAT differences between cakes and biscuits. McVitie's won and Jaffa Cakes were ruled as cakes, not biscuits.</p>}
+        <p>There was actually a lawsuit in 1991 over whether Jaffa Cakes were a biscuit or cake. This was to do with VAT differences between cakes and biscuits. McVitie's won and Jaffa Cakes were ruled as cakes, not biscuits.</p>
         <JaffaCakes />
-        {/* <header className="App-header">
-            <img src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/26/13/pa-9804902.jpg" width="400" />
-            <a className="App-link" href="https://www.astonshaw.co.uk/jaffa-cake-tax/" target="_blank" rel="noopener noreferrer">
-                Jaffa Cake Lawsuit
-            </a>
-        </header> */}
     </div>
 );
 
 const App = () => {
     return (
         <div className="App App-background">
-            <Router>
+            {/* Apply basename to the root Router */}
+            <Router basename="/PhoebeJaffaPage">
                 <Navbar /> {/* Navbar is displayed on all pages */}
                 <div style={{ padding: "20px" }}>
                     <Routes>
